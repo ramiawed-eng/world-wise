@@ -1,7 +1,11 @@
 import { useParams } from "react-router-dom";
-import styles from "./City.module.css";
 import { useEffect, useState } from "react";
+
+// components
 import Spinner from "./Spinner";
+
+// styles
+import styles from "./City.module.css";
 
 const formatDate = (date) =>
   new Intl.DateTimeFormat("en", {

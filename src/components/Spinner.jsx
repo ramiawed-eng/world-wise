@@ -1,3 +1,4 @@
+// styles
 import styles from "./Spinner.module.css";
 
 function Spinner() {

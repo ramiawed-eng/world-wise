@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+
+// styles
 import styles from "./CityItem.module.css";
 
 const formatDate = (date) =>

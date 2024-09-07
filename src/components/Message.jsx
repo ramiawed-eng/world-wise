@@ -1,3 +1,4 @@
+// styles
 import styles from "./Message.module.css";
 
 function Message({ message }) {

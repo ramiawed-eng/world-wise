@@ -1,3 +1,4 @@
+// styles
 import styles from "./User.module.css";
 
 const FAKE_USER = {

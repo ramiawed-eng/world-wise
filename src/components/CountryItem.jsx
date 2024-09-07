@@ -1,3 +1,4 @@
+// styles
 import styles from "./CountryItem.module.css";
 
 function CountryItem({ country }) {
