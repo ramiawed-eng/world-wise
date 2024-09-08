@@ -1,11 +1,16 @@
-import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useEffect } from "react";
 
 // components
 import Spinner from "./Spinner";
+import Button from "./Button";
 
 // styles
 import styles from "./City.module.css";
+
+// contexts
+import { useCities } from "../contexts/CitiesContext";
+import BackButton from "./BackButton";
 
 const formatDate = (date) =>
   new Intl.DateTimeFormat("en", {
@@ -15,39 +20,17 @@ const formatDate = (date) =>
     weekday: "long",
   }).format(new Date(date));
 
-const BASE_URL = "http://localhost:8000/cities";
-
 function City() {
+  const navigate = useNavigate();
   const { id } = useParams();
-  const [currentCity, setCurrentCity] = useState({});
-  const [isLoading, setIsLoading] = useState(false);
+  const { isLoading, currentCity, getCity } = useCities();
 
   useEffect(
     function () {
-      async function fetchCity() {
-        try {
-          const response = await fetch(`${BASE_URL}?id=${id}`);
-          const data = await response.json();
-          setCurrentCity(data[0]);
-        } catch (err) {
-          alert("We don't find the city");
-        } finally {
-          setIsLoading(false);
-        }
-      }
-      setIsLoading(true);
-      fetchCity();
+      getCity(id);
     },
     [id]
   );
-
-  // TEMP DATA
-  // const currentCity = {
-  //   cityName: "Lisbon",
-  //   emoji: "🇵🇹",
-  //   date: "2027-10-31T15:59:59.138Z",
-  //   notes: "My favorite city so far!",
-  // };
 
   if (isLoading) return <Spinner />;
 
@@ -85,7 +68,11 @@ function City() {
         </a>
       </div>
 
-      <div>{/* <ButtonBack /> */}</div>
+      <div>
+        {/* <ButtonBack /> */}
+
+        <BackButton />
+      </div>
     </div>
   );
 }
