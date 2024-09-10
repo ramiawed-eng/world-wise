@@ -1,5 +1,6 @@
 import {
   createContext,
+  useCallback,
   useContext,
   useEffect,
   useReducer,
@@ -101,16 +102,20 @@ function CitiesProvider({ children }) {
     getCities();
   }, []);
 
-  async function getCity(id) {
-    dispatch({ type: "city/reset" });
-    try {
-      const response = await fetch(`${BASE_URL}?id=${id}`);
-      const data = await response.json();
-      dispatch({ type: "city/loaded", payload: data[0] });
-    } catch (err) {
-      dispatch({ type: "rejected", payload: "We don't find the city" });
-    }
-  }
+  const getCity = useCallback(
+    async function getCity(id) {
+      if (Number(id) === currentCity.id) return;
+      dispatch({ type: "city/reset" });
+      try {
+        const response = await fetch(`${BASE_URL}?id=${id}`);
+        const data = await response.json();
+        dispatch({ type: "city/loaded", payload: data[0] });
+      } catch (err) {
+        dispatch({ type: "rejected", payload: "We don't find the city" });
+      }
+    },
+    [currentCity.id]
+  );
 
   async function createCity(city) {
     dispatch({ type: "loading" });
